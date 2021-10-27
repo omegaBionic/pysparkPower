@@ -17,15 +17,15 @@ schema = StructType([
     StructField("workclass", StringType(), nullable),
     StructField("fnlwgt", IntegerType(), nullable),
     StructField("education", StringType(), nullable),
-    StructField("education-num", StringType(), nullable),
+    StructField("education-num", IntegerType(), nullable),
     StructField("marital-status", StringType(), nullable),
     StructField("occupation", StringType(), nullable),
     StructField("relationship", StringType(), nullable),
     StructField("race", StringType(), nullable),
     StructField("sex", StringType(), nullable),
     StructField("capital-gain", IntegerType(), nullable),
-    StructField("capital-loss", StringType(), nullable),
-    StructField("hours-per-week", StringType(), nullable),
+    StructField("capital-loss", IntegerType(), nullable),
+    StructField("hours-per-week", IntegerType(), nullable),
     StructField("native-country", StringType(), nullable),
     StructField("is-upper-than-50k", StringType(), nullable)
 ])
@@ -43,6 +43,10 @@ print(df.columns)
 
 # df.select("is-upper-than-50k").show()
 df.select("*").show()
+
+
+
+
 
 
 
