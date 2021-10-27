@@ -14,26 +14,25 @@ spark = SparkSession \
 nullable = True
 schema = StructType([
     StructField("age", IntegerType(), nullable),
-    StructField("workclass", StringType(), nullable),
+    StructField("workclass", IntegerType(), nullable),
     StructField("fnlwgt", IntegerType(), nullable),
-    StructField("education", StringType(), nullable),
-    StructField("education-num", IntegerType(), nullable),
-    StructField("marital-status", StringType(), nullable),
-    StructField("occupation", StringType(), nullable),
-    StructField("relationship", StringType(), nullable),
-    StructField("race", StringType(), nullable),
-    StructField("sex", StringType(), nullable),
+    StructField("education", IntegerType(), nullable),
+    StructField("marital-status", IntegerType(), nullable),
+    StructField("occupation", IntegerType(), nullable),
+    StructField("relationship", IntegerType(), nullable),
+    StructField("race", IntegerType(), nullable),
+    StructField("sex", IntegerType(), nullable),
     StructField("capital-gain", IntegerType(), nullable),
     StructField("capital-loss", IntegerType(), nullable),
     StructField("hours-per-week", IntegerType(), nullable),
-    StructField("native-country", StringType(), nullable),
-    StructField("is-upper-than-50k", StringType(), nullable)
+    StructField("native-country", IntegerType(), nullable),
+    StructField("is-upper-than-50k", IntegerType(), nullable)
 ])
 # Connect to bdd
 sqlContext = SQLContext(sparkContext=spark.sparkContext, sparkSession=spark)
 
 # Read file
-df = sqlContext.read.csv("data/adult.data", header=False, sep=", ", schema=schema)
+df = sqlContext.read.csv("data/adult_processed_data.data", header=True, sep=",", schema=schema)
 
 # Display all columns
 #print(df.collect())
