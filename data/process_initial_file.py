@@ -3,23 +3,23 @@ import csv
 if __name__ == "__main__":
 
     list_workclass = ['Private', 'Self-emp-not-inc', 'Self-emp-inc', 'Federal-gov', 'Local-gov', 'State-gov',
-                      'Without-pay', 'Never-worked', '?']
+                      'Without-pay', 'Never-worked']
     list_education = ['Bachelors', 'Some-college', '11th', 'HS-grad', 'Prof-school', 'Assoc-acdm', 'Assoc-voc', '9th',
-                      '7th-8th', '12th', 'Masters', '1st-4th', '10th', 'Doctorate', '5th-6th', 'Preschool', '?']
+                      '7th-8th', '12th', 'Masters', '1st-4th', '10th', 'Doctorate', '5th-6th', 'Preschool']
     list_marital_status = ['Married-civ-spouse', 'Divorced', 'Never-married', 'Separated', 'Widowed',
-                           'Married-spouse-absent', 'Married-AF-spouse', '?']
+                           'Married-spouse-absent', 'Married-AF-spouse']
     list_occupation = ['Tech-support', 'Craft-repair', 'Other-service', 'Sales', 'Exec-managerial', 'Prof-specialty',
                        'Handlers-cleaners', 'Machine-op-inspct', 'Adm-clerical', 'Farming-fishing', 'Transport-moving',
-                       'Priv-house-serv', 'Protective-serv', 'Armed-Forces', '?']
-    list_relationship = ['Wife', 'Own-child', 'Husband', 'Not-in-family', 'Other-relative', 'Unmarried', '?']
-    list_race = ['White', 'Asian-Pac-Islander', 'Amer-Indian-Eskimo', 'Other', 'Black', '?']
+                       'Priv-house-serv', 'Protective-serv', 'Armed-Forces']
+    list_relationship = ['Wife', 'Own-child', 'Husband', 'Not-in-family', 'Other-relative', 'Unmarried']
+    list_race = ['White', 'Asian-Pac-Islander', 'Amer-Indian-Eskimo', 'Other', 'Black']
     list_sex = ['Female', 'Male']
     list_native_country = ['United-States', 'Cambodia', 'England', 'Puerto-Rico', 'Canada', 'Germany',
                            'Outlying-US(Guam-USVI-etc)', 'India', 'Japan', 'Greece', 'South', 'China', 'Cuba', 'Iran',
                            'Honduras', 'Philippines', 'Italy', 'Poland', 'Jamaica', 'Vietnam', 'Mexico', 'Portugal',
                            'Ireland', 'France', 'Dominican-Republic', 'Laos', 'Ecuador', 'Taiwan', 'Haiti', 'Columbia',
                            'Hungary', 'Guatemala', 'Nicaragua', 'Scotland', 'Thailand', 'Yugoslavia', 'El-Salvador',
-                           'Trinadad&Tobago', 'Peru', 'Hong', 'Holand-Netherlands', '?']
+                           'Trinadad&Tobago', 'Peru', 'Hong', 'Holand-Netherlands']
 
     dict_workclass = dict(zip(list_workclass, range(0, len(list_workclass))))
     dict_education = dict(zip(list_education, range(0, len(list_education))))
@@ -39,12 +39,12 @@ if __name__ == "__main__":
         filereaderData = csv.reader(csvfile, delimiter=',')
         for i, row in enumerate(filereaderData):
             for j in range(0, len(row)): row[j] = row[j].lstrip()
-            data_without_string.append([row[0], dict_workclass[row[1]], row[2],
-                                        dict_education[row[3]], dict_marital_status[row[5]],
-                                        dict_occupation[row[6]], dict_relationship[row[7]],
-                                        dict_race[row[8]], dict_sex[row[9]], row[10], row[11],
-                                        row[12], dict_native_country[row[13]],
-                                        dict_is_earning_more_than_50[row[14]]])
+            data_without_string.append([row[0], dict_workclass.get(row[1], "null"), row[2],
+                                        dict_education.get(row[3], "null"), dict_marital_status.get(row[5], "null"),
+                                        dict_occupation.get(row[6], "null"), dict_relationship.get(row[7], "null"),
+                                        dict_race.get(row[8], "null"), dict_sex.get(row[9], "null"), row[10], row[11],
+                                        row[12], dict_native_country.get(row[13], "null"),
+                                        dict_is_earning_more_than_50.get(row[14], "null")])
             print(i)
             '''
             data_without_string[i][0] = row[0]
