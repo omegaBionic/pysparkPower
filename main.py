@@ -49,7 +49,6 @@ print(df.columns)
 df.select("*").show()
 
 # Create features column, assembling together the numeric data
-# TODO Change column names
 col1_name = 'education'
 col2_name = 'sex'
 col3_name = 'is-upper-than-50k'
@@ -61,7 +60,7 @@ vecAssembler = VectorAssembler(
 adults_with_features = vecAssembler.transform(df)
 
 # Do K-means
-k = 3  # TODO: test several k, elbow method
+k = 3
 kmeans_algo = KMeans().setK(k).setSeed(1).setFeaturesCol("features")
 model = kmeans_algo.fit(adults_with_features)
 centers = model.clusterCenters()
