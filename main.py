@@ -1,13 +1,9 @@
-import pandas as pd
-from pyspark import SQLContext
 import matplotlib.pyplot as plt
-from pyspark.sql import SparkSession
+from pyspark import SQLContext
 from pyspark.ml.clustering import KMeans
 from pyspark.ml.feature import VectorAssembler
-from pyspark.sql.types import StructType, StructField, FloatType, StringType, IntegerType
-import data.process_initial_file as pif
-
-#pif.list_workclass
+from pyspark.sql import SparkSession
+from pyspark.sql.types import StructType, StructField, IntegerType
 
 spark = SparkSession \
     .builder \
@@ -50,10 +46,8 @@ df.select("*").show()
 
 # Create features column, assembling together the numeric data
 col1_name = 'education'
-col2_name = 'sex'
-col3_name = 'is-upper-than-50k'
-inputCols = [col1_name, col2_name, col3_name]
-#inputCols = ['education', 'marital-status', 'sex', 'is-upper-than-50k']
+col2_name = 'capital-gain'
+inputCols = [col1_name, col2_name]
 vecAssembler = VectorAssembler(
     inputCols=inputCols,
     outputCol="features")
@@ -78,24 +72,37 @@ print("STARTING PRINTING ADULTS_for")
 print(adults_for_viz)
 
 # Vizualize
-# Marker styles are calculated from Iris species
-# Marker styles are calculated from Iris species
-# print("END PRINTING ADULTS_FOR_VIZ")
-# setosaI = adults_for_viz['species'] == 'Iris-setosa'
-# setosa = adults_for_viz[setosaI]
-# versicolorI = adults_for_viz['species'] == 'Iris-versicolor'
-# versicolor = adults_for_viz[versicolorI]
-# virginicaI = adults_for_viz['species'] == 'Iris-virginica'
-# virginica = adults_for_viz[virginicaI]
+A = adults_for_viz[adults_for_viz["is-upper-than-50k"] == 0]
+B = adults_for_viz[adults_for_viz["is-upper-than-50k"] == 1]
 
 # Colors code k-means results, cluster numbers
-colors = {0: 'red', 1: 'green', 2: 'blue'}
+colors = {0: 'red', 1: 'blue', 2: 'orange'}
 
-fig = plt.figure().gca(projection='3d')
-fig.scatter(adults_for_viz[col1_name],
-            adults_for_viz[col2_name],
-            adults_for_viz[col3_name],
-            c=adults_for_viz.prediction.map(colors),
-            marker='s')
+# Draw dots
+fig = plt.figure().gca()
+fig.scatter(A[col1_name],
+            A[col2_name],
+            c=A.prediction.map(colors),
+            marker='.')
+fig.scatter(B[col1_name],
+            B[col2_name],
+            c=B.prediction.map(colors),
+            marker='x')
+fig.set_yscale('log', base=2)
 
+# Draw grid
+plt.grid()
+
+# Set text
+plt.title("Combined Statistics")
+plt.xlabel("Education")
+plt.ylabel("Capital-gain")
+plt.legend(['is-upper-than-50k: False', 'is-upper-than-50k: True'])
+
+# Show fig
 plt.show()
+
+# DEBUG: Display stats
+print("k: '{}'".format(k))
+print("A.prediction.value_counts(): '{}'".format(A.prediction.value_counts()))
+print("B.prediction.value_counts(): '{}'".format(B.prediction.value_counts()))
