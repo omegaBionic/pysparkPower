@@ -47,6 +47,8 @@ df.select("*").show()
 # Create features column, assembling together the numeric data
 col1_name = 'education'
 col2_name = 'capital-gain'
+col3_name = 'hours-per-week'
+col3_name = 'race'
 inputCols = [col1_name, col2_name]
 vecAssembler = VectorAssembler(
     inputCols=inputCols,
@@ -69,7 +71,7 @@ print("Centers: '{}'".format(centers))
 # Convert Spark Data Frame to Pandas Data Frame
 adults_for_viz = adults_with_clusters.toPandas()
 print("STARTING PRINTING ADULTS_for")
-print(adults_for_viz)
+print("adults_for_viz.prediction.value_counts(): '{}'".format(adults_for_viz.prediction.value_counts()))
 
 # Vizualize
 A = adults_for_viz[adults_for_viz["is-upper-than-50k"] == 0]
@@ -78,8 +80,35 @@ B = adults_for_viz[adults_for_viz["is-upper-than-50k"] == 1]
 # Colors code k-means results, cluster numbers
 colors = {0: 'red', 1: 'blue', 2: 'orange'}
 
+# Figure 1
 # Draw dots
-fig = plt.figure().gca()
+fig = plt.figure().add_subplot()
+fig.scatter(A[col1_name],
+            A[col2_name],
+            c=A.prediction.map(colors),
+            marker='.')
+fig.scatter(B[col1_name],
+            B[col2_name],
+            c=B.prediction.map(colors),
+            marker='x')
+
+# Draw grid
+plt.grid()
+
+# Set text
+plt.title("Combined Statistics 1")
+plt.xlabel(col1_name)
+plt.ylabel(col2_name)
+plt.legend(['is-upper-than-50k: False', 'is-upper-than-50k: True'])
+
+plt.savefig("picture1.png", bbox_inches='tight')
+
+# Show fig
+plt.show()
+
+# Figure 2
+# Draw dots
+fig = plt.figure().add_subplot()
 fig.scatter(A[col1_name],
             A[col2_name],
             c=A.prediction.map(colors),
@@ -94,10 +123,70 @@ fig.set_yscale('log', base=2)
 plt.grid()
 
 # Set text
-plt.title("Combined Statistics")
-plt.xlabel("Education")
-plt.ylabel("Capital-gain")
+plt.title("Combined Statistics 2")
+plt.xlabel(col1_name)
+plt.ylabel(col2_name)
 plt.legend(['is-upper-than-50k: False', 'is-upper-than-50k: True'])
+
+plt.savefig("picture2.png", bbox_inches='tight')
+
+# Show fig
+plt.show()
+
+# Figure 3
+inputCols = [col2_name, col3_name]
+vecAssembler = VectorAssembler(
+    inputCols=inputCols,
+    outputCol="features")
+adults_with_features = vecAssembler.transform(df)
+
+# Do K-means
+k = 3
+kmeans_algo = KMeans().setK(k).setSeed(1).setFeaturesCol("features")
+model = kmeans_algo.fit(adults_with_features)
+centers = model.clusterCenters()
+
+# Assign clusters to flowers
+# Cluster prediction, named prediction and used after for color
+adults_with_clusters = model.transform(adults_with_features)
+
+# Display Centers
+print("Centers: '{}'".format(centers))
+
+# Convert Spark Data Frame to Pandas Data Frame
+adults_for_viz = adults_with_clusters.toPandas()
+print("STARTING PRINTING ADULTS_for")
+print("adults_for_viz.prediction.value_counts(): '{}'".format(adults_for_viz.prediction.value_counts()))
+
+# Vizualize
+A = adults_for_viz[adults_for_viz["is-upper-than-50k"] == 0]
+B = adults_for_viz[adults_for_viz["is-upper-than-50k"] == 1]
+
+# Colors code k-means results, cluster numbers
+colors = {0: 'red', 1: 'blue', 2: 'orange'}
+
+# Draw dots
+fig = plt.figure().add_subplot()
+fig.scatter(A[col3_name],
+            A[col2_name],
+            c=A.prediction.map(colors),
+            marker='.')
+fig.scatter(B[col3_name],
+            B[col2_name],
+            c=B.prediction.map(colors),
+            marker='x')
+fig.set_yscale('log', base=2)
+
+# Draw grid
+plt.grid()
+
+# Set text
+plt.title("Combined Statistics 3")
+plt.xlabel(col3_name)
+plt.ylabel(col2_name)
+plt.legend(['is-upper-than-50k: False', 'is-upper-than-50k: True'])
+
+plt.savefig("picture3.png", bbox_inches='tight')
 
 # Show fig
 plt.show()
