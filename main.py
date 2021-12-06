@@ -55,6 +55,7 @@ vecAssembler = VectorAssembler(
     outputCol="features")
 adults_with_features = vecAssembler.transform(df)
 
+# Figure 1
 # Do K-means
 k = 3
 kmeans_algo = KMeans().setK(k).setSeed(1).setFeaturesCol("features")
@@ -80,7 +81,6 @@ B = adults_for_viz[adults_for_viz["is-upper-than-50k"] == 1]
 # Colors code k-means results, cluster numbers
 colors = {0: 'red', 1: 'blue', 2: 'orange'}
 
-# Figure 1
 # Draw dots
 fig = plt.figure().add_subplot()
 fig.scatter(A[col1_name],
@@ -101,6 +101,7 @@ plt.xlabel(col1_name)
 plt.ylabel(col2_name)
 plt.legend(['is-upper-than-50k: False', 'is-upper-than-50k: True'])
 
+# Save figure
 plt.savefig("picture1.png", bbox_inches='tight')
 
 # Show fig
@@ -128,6 +129,7 @@ plt.xlabel(col1_name)
 plt.ylabel(col2_name)
 plt.legend(['is-upper-than-50k: False', 'is-upper-than-50k: True'])
 
+# Save figure
 plt.savefig("picture2.png", bbox_inches='tight')
 
 # Show fig
@@ -175,7 +177,7 @@ fig.scatter(B[col3_name],
             B[col2_name],
             c=B.prediction.map(colors),
             marker='x')
-fig.set_yscale('log', base=2)
+# fig.set_yscale('log', base=2)
 
 # Draw grid
 plt.grid()
@@ -186,6 +188,7 @@ plt.xlabel(col3_name)
 plt.ylabel(col2_name)
 plt.legend(['is-upper-than-50k: False', 'is-upper-than-50k: True'])
 
+# Save figure
 plt.savefig("picture3.png", bbox_inches='tight')
 
 # Show fig

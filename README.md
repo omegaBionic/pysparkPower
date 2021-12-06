@@ -25,6 +25,28 @@ You can find the repos at this address: https://github.com/omegaBionic/pysparkPo
 ###Dataset:
 - "Recensement, 48 842 instances "http://archive.ics.uci.edu/ml/datasets/Adult"
 
+###tree structure
+```bach
+└──╼ $tree
+.
+├── data
+│   ├── adult.data
+│   ├── adult.names
+│   ├── adult_processed_data.data
+│   ├── adult.test
+│   ├── Dictionaries.txt
+│   ├── old.adult.names
+│   ├── process_initial_file.py
+│   └── __pycache__
+│       └── process_initial_file.cpython-39.pyc
+├── LICENSE
+├── main.py
+├── README.md
+└── Resources
+    ├── figure_capital-gain_education_is-upper-50k_with-log2.png
+    ├── figure_capital-gain_education_is-upper-50k_without-log2.png
+    └── figure_race_capital-gain_is-upper-50k.png
+```
 ***
 
 ###Presentation of the chosen dataset:
