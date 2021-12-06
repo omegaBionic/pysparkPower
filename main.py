@@ -1,9 +1,35 @@
 import matplotlib.pyplot as plt
+import numpy as np
+import pylab as pl
+import pandas as pd
 from pyspark import SQLContext
 from pyspark.ml.clustering import KMeans
 from pyspark.ml.feature import VectorAssembler
 from pyspark.sql import SparkSession
 from pyspark.sql.types import StructType, StructField, IntegerType
+
+
+def elbow_method_evaluation(df):
+    # Calculate cost and plot
+    cost = np.zeros(10)
+
+    for k in range(2, 10):
+        kmeans = KMeans().setK(k).setSeed(1).setFeaturesCol("features")
+        model = kmeans.fit(df)
+        cost[k] = model.summary.trainingCost
+
+    # Plot the cost
+    df_cost = pd.DataFrame(cost[2:])
+    df_cost.columns = ["cost"]
+    new_col = [2, 3, 4, 5, 6, 7, 8, 9]
+    df_cost.insert(0, 'cluster', new_col)
+
+    pl.plot(df_cost.cluster, df_cost.cost)
+    pl.xlabel('Number of Clusters')
+    pl.ylabel('Score')
+    pl.title('Elbow Curve')
+    pl.show()
+
 
 spark = SparkSession \
     .builder \
@@ -57,12 +83,14 @@ adults_with_features = vecAssembler.transform(df)
 
 # Figure 1
 # Do K-means
+# Evaluate number of clusters with the elbow method
+elbow_method_evaluation(adults_with_features)
 k = 3
 kmeans_algo = KMeans().setK(k).setSeed(1).setFeaturesCol("features")
 model = kmeans_algo.fit(adults_with_features)
 centers = model.clusterCenters()
 
-# Assign clusters to flowers
+# Assign clusters to adults
 # Cluster prediction, named prediction and used after for color
 adults_with_clusters = model.transform(adults_with_features)
 
@@ -118,7 +146,7 @@ fig.scatter(B[col1_name],
             B[col2_name],
             c=B.prediction.map(colors),
             marker='x')
-fig.set_yscale('log', base=2)
+# fig.set_yscale('log', base=2)
 
 # Draw grid
 plt.grid()
