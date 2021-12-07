@@ -1,38 +1,38 @@
 import csv
 
-if __name__ == "__main__":
-
-    list_workclass = ['Private', 'Self-emp-not-inc', 'Self-emp-inc', 'Federal-gov', 'Local-gov', 'State-gov',
+list_workclass = ['Private', 'Self-emp-not-inc', 'Self-emp-inc', 'Federal-gov', 'Local-gov', 'State-gov',
                       'Without-pay', 'Never-worked']
-    list_education = ['Bachelors', 'Some-college', '11th', 'HS-grad', 'Prof-school', 'Assoc-acdm', 'Assoc-voc', '9th',
-                      '7th-8th', '12th', 'Masters', '1st-4th', '10th', 'Doctorate', '5th-6th', 'Preschool']
-    list_marital_status = ['Married-civ-spouse', 'Divorced', 'Never-married', 'Separated', 'Widowed',
-                           'Married-spouse-absent', 'Married-AF-spouse']
-    list_occupation = ['Tech-support', 'Craft-repair', 'Other-service', 'Sales', 'Exec-managerial', 'Prof-specialty',
-                       'Handlers-cleaners', 'Machine-op-inspct', 'Adm-clerical', 'Farming-fishing', 'Transport-moving',
-                       'Priv-house-serv', 'Protective-serv', 'Armed-Forces']
-    list_relationship = ['Wife', 'Own-child', 'Husband', 'Not-in-family', 'Other-relative', 'Unmarried']
-    list_race = ['White', 'Asian-Pac-Islander', 'Amer-Indian-Eskimo', 'Other', 'Black']
-    list_sex = ['Female', 'Male']
-    list_native_country = ['United-States', 'Cambodia', 'England', 'Puerto-Rico', 'Canada', 'Germany',
-                           'Outlying-US(Guam-USVI-etc)', 'India', 'Japan', 'Greece', 'South', 'China', 'Cuba', 'Iran',
-                           'Honduras', 'Philippines', 'Italy', 'Poland', 'Jamaica', 'Vietnam', 'Mexico', 'Portugal',
-                           'Ireland', 'France', 'Dominican-Republic', 'Laos', 'Ecuador', 'Taiwan', 'Haiti', 'Columbia',
-                           'Hungary', 'Guatemala', 'Nicaragua', 'Scotland', 'Thailand', 'Yugoslavia', 'El-Salvador',
-                           'Trinadad&Tobago', 'Peru', 'Hong', 'Holand-Netherlands']
+list_education = ['Bachelors', 'Some-college', '11th', 'HS-grad', 'Prof-school', 'Assoc-acdm', 'Assoc-voc', '9th',
+                  '7th-8th', '12th', 'Masters', '1st-4th', '10th', 'Doctorate', '5th-6th', 'Preschool']
+list_marital_status = ['Married-civ-spouse', 'Divorced', 'Never-married', 'Separated', 'Widowed',
+                       'Married-spouse-absent', 'Married-AF-spouse']
+list_occupation = ['Tech-support', 'Craft-repair', 'Other-service', 'Sales', 'Exec-managerial', 'Prof-specialty',
+                   'Handlers-cleaners', 'Machine-op-inspct', 'Adm-clerical', 'Farming-fishing', 'Transport-moving',
+                   'Priv-house-serv', 'Protective-serv', 'Armed-Forces']
+list_relationship = ['Wife', 'Own-child', 'Husband', 'Not-in-family', 'Other-relative', 'Unmarried']
+list_race = ['White', 'Asian-Pac-Islander', 'Amer-Indian-Eskimo', 'Other', 'Black']
+list_sex = ['Female', 'Male']
+list_native_country = ['United-States', 'Cambodia', 'England', 'Puerto-Rico', 'Canada', 'Germany',
+                       'Outlying-US(Guam-USVI-etc)', 'India', 'Japan', 'Greece', 'South', 'China', 'Cuba', 'Iran',
+                       'Honduras', 'Philippines', 'Italy', 'Poland', 'Jamaica', 'Vietnam', 'Mexico', 'Portugal',
+                       'Ireland', 'France', 'Dominican-Republic', 'Laos', 'Ecuador', 'Taiwan', 'Haiti', 'Columbia',
+                       'Hungary', 'Guatemala', 'Nicaragua', 'Scotland', 'Thailand', 'Yugoslavia', 'El-Salvador',
+                       'Trinadad&Tobago', 'Peru', 'Hong', 'Holand-Netherlands']
 
-    dict_workclass = dict(zip(list_workclass, range(0, len(list_workclass))))
-    dict_education = dict(zip(list_education, range(0, len(list_education))))
-    dict_marital_status = dict(zip(list_marital_status, range(0, len(list_marital_status))))
-    dict_occupation = dict(zip(list_occupation, range(0, len(list_occupation))))
-    dict_relationship = dict(zip(list_relationship, range(0, len(list_relationship))))
-    dict_race = dict(zip(list_race, range(0, len(list_race))))
-    dict_sex = dict(zip(list_sex, range(0, len(list_sex))))
-    dict_native_country = dict(zip(list_native_country, range(0, len(list_native_country))))
-    dict_is_earning_more_than_50 = {
-        "<=50K": 0,
-        ">50K": 1
-    }
+dict_workclass = dict(zip(list_workclass, range(0, len(list_workclass))))
+dict_education = dict(zip(list_education, range(0, len(list_education))))
+dict_marital_status = dict(zip(list_marital_status, range(0, len(list_marital_status))))
+dict_occupation = dict(zip(list_occupation, range(0, len(list_occupation))))
+dict_relationship = dict(zip(list_relationship, range(0, len(list_relationship))))
+dict_race = dict(zip(list_race, range(0, len(list_race))))
+dict_sex = dict(zip(list_sex, range(0, len(list_sex))))
+dict_native_country = dict(zip(list_native_country, range(0, len(list_native_country))))
+dict_is_earning_more_than_50 = {
+    "<=50K": 0,
+    ">50K": 1
+}
+
+if __name__ == "__main__":
 
     data_without_string = []
     with open("adult.data", 'r', newline='') as csvfile:

@@ -8,6 +8,8 @@ from pyspark.ml.feature import VectorAssembler
 from pyspark.sql import SparkSession
 from pyspark.sql.types import StructType, StructField, IntegerType
 
+from data.process_initial_file import dict_education, list_education, list_race
+
 
 def elbow_method_evaluation(df):
     # Calculate cost and plot
@@ -73,9 +75,9 @@ df.select("*").show()
 # Create features column, assembling together the numeric data
 col1_name = 'education'
 col2_name = 'capital-gain'
-col3_name = 'hours-per-week'
 col3_name = 'race'
-inputCols = [col1_name, col2_name]
+col4_name = 'hours-per-week'
+inputCols = [col1_name, col2_name, col3_name]
 vecAssembler = VectorAssembler(
     inputCols=inputCols,
     outputCol="features")
@@ -85,6 +87,7 @@ adults_with_features = vecAssembler.transform(df)
 # Do K-means
 # Evaluate number of clusters with the elbow method
 elbow_method_evaluation(adults_with_features)
+
 k = 3
 kmeans_algo = KMeans().setK(k).setSeed(1).setFeaturesCol("features")
 model = kmeans_algo.fit(adults_with_features)
@@ -127,6 +130,8 @@ plt.grid()
 plt.title("Combined Statistics 1")
 plt.xlabel(col1_name)
 plt.ylabel(col2_name)
+# TODO To change in case col1_name is changed
+plt.xticks(range(0, len(list_education)), list_education, rotation='vertical')
 plt.legend(['is-upper-than-50k: False', 'is-upper-than-50k: True'])
 
 # Save figure
@@ -155,6 +160,7 @@ plt.grid()
 plt.title("Combined Statistics 2")
 plt.xlabel(col1_name)
 plt.ylabel(col2_name)
+plt.xticks(range(0, len(list_education)), list_education, rotation='vertical')
 plt.legend(['is-upper-than-50k: False', 'is-upper-than-50k: True'])
 
 # Save figure
@@ -214,12 +220,73 @@ plt.grid()
 plt.title("Combined Statistics 3")
 plt.xlabel(col3_name)
 plt.ylabel(col2_name)
+plt.xticks(range(0, len(list_race)), list_race, rotation='vertical')
 plt.legend(['is-upper-than-50k: False', 'is-upper-than-50k: True'])
 
 # Save figure
 plt.savefig("picture3.png", bbox_inches='tight')
 
 # Show fig
+plt.show()
+
+# TODO PUT HERE
+
+# Figure 4
+inputCols = [col1_name, col3_name, col4_name]
+vecAssembler = VectorAssembler(
+    inputCols=inputCols,
+    outputCol="features")
+adults_with_features = vecAssembler.transform(df)
+
+elbow_method_evaluation(adults_with_features)
+
+# Do K-means
+k = 3
+kmeans_algo = KMeans().setK(k).setSeed(1).setFeaturesCol("features")
+model = kmeans_algo.fit(adults_with_features)
+centers = model.clusterCenters()
+
+# Assign clusters to flowers
+# Cluster prediction, named prediction and used after for color
+adults_with_clusters = model.transform(adults_with_features)
+
+# Display Centers
+print("Centers: '{}'".format(centers))
+
+# Convert Spark Data Frame to Pandas Data Frame
+adults_for_viz = adults_with_clusters.toPandas()
+print("STARTING PRINTING ADULTS_for")
+print("adults_for_viz.prediction.value_counts(): '{}'".format(adults_for_viz.prediction.value_counts()))
+
+# Vizualize
+A = adults_for_viz[adults_for_viz["is-upper-than-50k"] == 0]
+B = adults_for_viz[adults_for_viz["is-upper-than-50k"] == 1]
+
+# Colors code k-means results, cluster numbers
+colors = {0: 'red', 1: 'blue', 2: 'orange'}
+
+# Draw dots
+fig_3d = plt.figure()
+ax = plt.axes(projection='3d')
+
+ax.set_xlabel(col1_name)
+ax.set_ylabel(col3_name)
+ax.set_zlabel(col4_name)
+ax.set_xticks(range(0, len(list_education)))
+ax.set_xticklabels(list_education, rotation=90,
+                   verticalalignment='baseline',
+                   horizontalalignment='left')
+ax.set_yticks(range(0, len(list_race)))
+ax.set_yticklabels(list_race, rotation=-15,
+                   verticalalignment='baseline',
+                   horizontalalignment='left')
+# Data for three-dimensional scattered points
+ax.scatter3D(A[col1_name], A[col3_name], A[col4_name], c=A.prediction.map(colors), cmap='Greens', marker='.')
+ax.scatter3D(B[col1_name], B[col3_name], B[col4_name], c=B.prediction.map(colors), cmap='Greens', marker='x')
+
+# Save figure
+plt.savefig("picture4.png", bbox_inches='tight')
+
 plt.show()
 
 # DEBUG: Display stats
