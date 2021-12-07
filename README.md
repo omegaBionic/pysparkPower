@@ -62,10 +62,10 @@ https://kirgizov.link/teaching/esirem/bigdata-2021/TP-PROJET.pdf
 
 #Datas
 ##Data 1 : Capital gain + Education + < ou >= 50k earned per year -> without log(2)
-![your-pic-caption-name](Resources/figure_capital-gain_education_is-upper-50k_without-log2.png)
+![figure_capital-gain_education_is-upper-50k_without-log2](Resources/figure_capital-gain_education_is-upper-50k_without-log2.png)
 
 ##Data 2 : Capital gain + Education + < ou >= 50k earned per year -> with log(2)
-![your-pic-caption-name](Resources/figure_capital-gain_education_is-upper-50k_with-log2.png)
+![figure_capital-gain_education_is-upper-50k_with-log2](Resources/figure_capital-gain_education_is-upper-50k_with-log2.png)
 
 ##For data 1 and data 2 we can notice:
 ###Legend :
@@ -97,7 +97,7 @@ https://kirgizov.link/teaching/esirem/bigdata-2021/TP-PROJET.pdf
 ---
 
 ###Data 3 : Capital gain + Education + < ou >= 50k earned per year -> with log(2)
-![your-pic-caption-name](Resources/figure_race_capital-gain_is-upper-50k.png)
+![figure_race_capital-gain_is-upper-50k](Resources/figure_race_capital-gain_is-upper-50k.png)
 
 ###For data 3:
 ###Legend:
@@ -109,3 +109,12 @@ https://kirgizov.link/teaching/esirem/bigdata-2021/TP-PROJET.pdf
 
 ###Data 3:
 - Il n'y a pas de Amer-Indian-Eskimo riches selon le cluster bleu
+
+---
+
+##Data 4 : education_race_hours_per_week
+![your-education_race_hours_per_week-caption-name](Resources/education_race_hours_per_week.png)
+
+---
+##Method to find the proper number of clusters
+![your-education_race_hours_per_week-caption-name](Resources/elbow_curve.png)
